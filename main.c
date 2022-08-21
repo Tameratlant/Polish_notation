@@ -1,50 +1,45 @@
 #include "convert.h"
-#include "stack.h"
 #include "rpneval.h"
+#include "stack.h"
 
-int main () {
-    char * s;
-    char buf[256];
-	// double result;
-    s = calloc(256, sizeof(char));
+int main() {
+  char *s;
+  char* buf = calloc(256, sizeof(char));
+  double result;
 
-    char* infixExpr = calloc(256, sizeof(char));
+  char *infixExpr;
 
-    char* withoutx = calloc(256, sizeof(char));
+  char *withoutx;
 
-    fgets(buf, 256, stdin);
+  // char res[256];
 
-    infixExpr = no_sin(buf);
+  fgets(buf, 256, stdin);
 
-    printf("With x\n");
+  infixExpr = no_sin(buf);
 
-    printf("\n%s\n", infixExpr);
+  printf("With x\n");
 
-    s = ToPostfix(infixExpr);
+  printf("\n%s\n", infixExpr);
 
-    printf("With x\n");
+  s = ToPostfix(infixExpr);
 
-    printf("\n%s\n", s);
+  printf("With x\n");
 
-    withoutx = convert_x(s, 1.5);
+  printf("\n%s\n", s);
 
-    printf("Without x\n");
+  withoutx = convert_x(s, 1.5);
 
-    printf("\n%s\n", withoutx);
+  printf("Without x\n");
 
-    // printf("\n%s\n", withoutx);
-    
+  printf("\n%s\n", withoutx);
 
+  // printf("\n%s\n", withoutx);
 
-	// eval_rpn(&result, s);
-	// printf("result = %f\n", result);
-    //printf("%s", GetStringNumber("1.5123", &i));
-    // free(ToPostfix);
-    // free(s);
-    return 0;
-
-
-
-
-
+  eval_rpn(&result, withoutx);
+  printf("result = %f\n", result);
+  // printf("%s", GetStringNumber("1.5123", &i));
+   free(infixExpr);
+   free(s);
+   free(withoutx);
+  return 0;
 }
