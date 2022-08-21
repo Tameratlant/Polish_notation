@@ -57,14 +57,17 @@ int operationPriority(char c) {
 
 char* GetStringNumber(char* expr, int* pos)
 {
+  //printf("\nPos %d\n", *pos);
   //	Хранит число
 //   char strNumber[100] = "";
   char* strNumber = calloc(100, sizeof(char));
   int len = strlen(expr);
   //	Перебираем строку
-  for (; *pos < len; *pos++) {
+  int i = *pos;
+  for (; i < len; i++) {
+    //printf("\nPos = %d\n", i);
     //	Разбираемый символ строки
-    char num = expr[*pos];
+    char num = expr[i];
 	
     //	Проверяем, является символ числом
     if (check_digit(num) || num == '.') {
@@ -78,14 +81,15 @@ char* GetStringNumber(char* expr, int* pos)
     else
     {
       //	Если нет, то перемещаем счётчик к предыдущему символу
-      *pos--;
+      i--;
       //	И выходим из цикла
       break;
     }
   }
 
   //	Возвращаем число
-  printf("%d")
+  //printf("Pos = %d\n", i);
+  *pos = i;
   return strNumber;
 }
 
@@ -112,6 +116,7 @@ char* ToPostfix(char* infixExpr)
          //	Парсии его, передав строку и текущую позицию, и заносим в выходную строку
          //printf("\n%c\n", c);
          postfixExpr = realloc (postfixExpr, sizeof(char));
+         printf("i = %d", i);
          strcat(postfixExpr, GetStringNumber(infixExpr, &i));
          strcat(postfixExpr, " ");
       }
@@ -196,7 +201,7 @@ int main () {
     char * s;
     s = calloc(100, sizeof(char));
     s = ToPostfix("(1.5123 /2 + 1)*3+7");
-     //printf("\n%s\n", s);
+     printf("\n%s\n", s);
     // printf("%s", s);
     int i = 0;
     printf("%s", GetStringNumber("1.5123", &i));
