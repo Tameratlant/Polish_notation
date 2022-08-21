@@ -30,6 +30,10 @@ int operationPriority(char c) {
     if (c == '*') flag = 2;
     if (c == '/') flag = 2;
     if (c == '^') flag = 3;
+    if (c == 's') flag = 4;
+    if (c == 'c') flag = 4;
+    if (c == 't') flag = 4;
+    if (c == 'T') flag = 4;
     if (c == '~') flag = 4;
     return flag;
 }
@@ -53,6 +57,48 @@ int operationPriority(char c) {
 //     printf("%d", a);
 // }
 
+int check_sin(char *str, int pos){
+      int i = pos;
+      if (str[i] == 's' && str[i+1] == 'i' && str[i+2] == 'n'){
+        return 1;
+      }
+      else 
+{
+  return 0;
+}
+    }
+    int check_cos(char *str, int pos){
+      int i = pos;
+      if (str[i] == 'c' && str[i+1] == 'o' && str[i+2] == 's'){
+        return 1;
+      }
+      else 
+{
+  return 0;
+}
+    }
+    int check_tan(char *str, int pos){
+      int i = pos;
+      if (str[i] == 't' && str[i+1] == 'a' && str[i+2] == 'n'){
+        return 1;
+      }
+      else 
+{
+  return 0;
+}
+    }
+    int check_ctg(char *str, int pos){
+      int i = pos;
+      if (str[i] == 'c' && str[i+1] == 't' && str[i+2] == 'g'){
+        return 1;
+      }
+      else 
+{
+  return 0;
+}
+    }
+
+
 char* GetStringNumber(char* expr, int* pos) {
   //printf("\nPos %d\n", *pos);
   //	Хранит число
@@ -67,7 +113,8 @@ char* GetStringNumber(char* expr, int* pos) {
     char num = expr[i];
 	
     //	Проверяем, является символ числом
-    if (check_digit(num) || num == '.') {
+    
+    if (check_digit(num) || num == '.' || num == 'x') {
       //	Если да - прибавляем к строке
       char s[2];
       s[1] = '\0';
@@ -88,6 +135,49 @@ char* GetStringNumber(char* expr, int* pos) {
   //printf("Pos = %d\n", i);
   *pos = i;
   return strNumber;
+}
+
+char* no_sin(char * in) {
+  int len = strlen(in);
+  char* infixExpr = calloc(len, sizeof(char));
+  for (int i = 0; i < len ; i++) {
+    if (check_sin(in, i) == 1) {
+          i = i + 2;
+          char s[2];
+          s[1] = '\0';
+          s[0] = 's';
+          strcat(infixExpr, s);
+          strcat(infixExpr, " ");
+        } else if (check_cos(in, i) == 1) {
+          i = i + 2;
+          char s[2];
+          s[1] = '\0';
+          s[0] = 'c';
+          strcat(infixExpr, s);
+          strcat(infixExpr, " ");
+        } else if (check_tan(in, i) == 1) {
+          i = i + 2;
+          char s[2];
+          s[1] = '\0';
+          s[0] = 't';
+          strcat(infixExpr, s);
+          strcat(infixExpr, " ");
+        } else if (check_ctg(in, i) == 1) {
+          i = i + 2;
+          char s[2];
+          s[1] = '\0';
+          s[0] = 'T';
+          strcat(infixExpr, s);
+          strcat(infixExpr, " ");
+        } else {
+          char s[2];
+          s[1] = '\0';
+          s[0] = in[i];
+          strcat(infixExpr, s);
+          strcat(infixExpr, " ");
+        }
+  }
+  return infixExpr;
 }
 
 char* ToPostfix(char* infixExpr) {
@@ -192,4 +282,12 @@ char* ToPostfix(char* infixExpr) {
   	//	Возвращаем выражение в постфиксной записи
     return postfixExpr;
 }
+
+// char* double_to_string(double x) {
+
+// }
+
+// char* void convert_x(char* s, double x) {
+
+// }
 
