@@ -24,17 +24,28 @@ int check_digit(char c) {
 
 int operationPriority(char c) {
   int flag = -1;
-    if (c == '(') flag = 0;
-    if (c == '+') flag = 1;
-    if (c == '-') flag = 1;
-    if (c == '*') flag = 2;
-    if (c == '/') flag = 2;
-    if (c == '^') flag = 3;
-    if (c == 's') flag = 4;
-    if (c == 'c') flag = 4;
-    if (c == 't') flag = 4;
-    if (c == 'T') flag = 4;
-    if (c == '~') flag = 4;
+  if (c == '(')
+    flag = 0;
+  if (c == '+')
+    flag = 1;
+  if (c == '-')
+    flag = 1;
+  if (c == '*')
+    flag = 2;
+  if (c == '/')
+    flag = 2;
+  if (c == '^')
+    flag = 3;
+  if (c == 's')
+    flag = 4;
+  if (c == 'c')
+    flag = 4;
+  if (c == 't')
+    flag = 4;
+  if (c == 'T')
+    flag = 4;
+  if (c == '~')
+    flag = 4;
   return flag;
 }
 
@@ -94,7 +105,7 @@ char *GetStringNumber(char *expr, int *pos) {
   // printf("\nPos %d\n", *pos);
   //	Хранит число
   //   char strNumber[100] = "";
-  char *strNumber = calloc(100, sizeof(char));
+  char *strNumber = calloc(1, sizeof(char));
   int len = strlen(expr);
   //	Перебираем строку
   int i = *pos;
@@ -132,7 +143,7 @@ char *ToPostfix(char *infixExpr) {
 
   // printf("\n%s\n", infixExpr);
 
-  char *postfixExpr = calloc(22 * len, sizeof(char));
+  char *postfixExpr = calloc(len, sizeof(char));
   //	Инициализация стека, содержащий операторы в виде символов
 
   stack *st = init();
@@ -148,9 +159,11 @@ char *ToPostfix(char *infixExpr) {
       //	Парсии его, передав строку и текущую позицию, и заносим в
       //выходную строку printf("\n%c\n", c);
       postfixExpr = realloc(postfixExpr, sizeof(char));
-      //printf("i = %d", i);
-      strcat(postfixExpr, GetStringNumber(infixExpr, &i));
+      // printf("i = %d", i);
+      char * ut = GetStringNumber(infixExpr, &i);
+      strcat(postfixExpr, ut);
       strcat(postfixExpr, " ");
+      free(ut);
     }
     //	Если открывающаяся скобка
     else if (c == '(') {
@@ -228,61 +241,63 @@ char *ToPostfix(char *infixExpr) {
   }
 
   //	Возвращаем выражение в постфиксной записи
+  destroy(st);
   return postfixExpr;
 }
 
-char* no_sin(char * in) {
+char *no_sin(char *in) {
   int len = strlen(in);
-  char* infixExpr = calloc(2 * len, sizeof(char));
-  for (int i = 0; i < len ; i++) {
+  char *infixExpr = calloc(len, sizeof(char));
+  for (int i = 0; i < len; i++) {
     if (check_sin(in, i) == 1) {
-          i = i + 2;
-          char s[2];
-          s[1] = '\0';
-          s[0] = 's';
-          strcat(infixExpr, s);
-          // strcat(infixExpr, " ");
-        } else if (check_cos(in, i) == 1) {
-          i = i + 2;
-          char s[2];
-          s[1] = '\0';
-          s[0] = 'c';
-          strcat(infixExpr, s);
-          // strcat(infixExpr, " ");
-        } else if (check_tan(in, i) == 1) {
-          i = i + 2;
-          char s[2];
-          s[1] = '\0';
-          s[0] = 't';
-          strcat(infixExpr, s);
-          // strcat(infixExpr, " ");
-        } else if (check_ctg(in, i) == 1) {
-          i = i + 2;
-          char s[2];
-          s[1] = '\0';
-          s[0] = 'T';
-          strcat(infixExpr, s);
-          // strcat(infixExpr, " ");
-        } else {
-          char s[2];
-          s[1] = '\0';
-          s[0] = in[i];
-          strcat(infixExpr, s);
-          // strcat(infixExpr, " ");
-        }
+      i = i + 2;
+      char s[2];
+      s[1] = '\0';
+      s[0] = 's';
+      strcat(infixExpr, s);
+      // strcat(infixExpr, " ");
+    } else if (check_cos(in, i) == 1) {
+      i = i + 2;
+      char s[2];
+      s[1] = '\0';
+      s[0] = 'c';
+      strcat(infixExpr, s);
+      // strcat(infixExpr, " ");
+    } else if (check_tan(in, i) == 1) {
+      i = i + 2;
+      char s[2];
+      s[1] = '\0';
+      s[0] = 't';
+      strcat(infixExpr, s);
+      // strcat(infixExpr, " ");
+    } else if (check_ctg(in, i) == 1) {
+      i = i + 2;
+      char s[2];
+      s[1] = '\0';
+      s[0] = 'T';
+      strcat(infixExpr, s);
+      // strcat(infixExpr, " ");
+    } else {
+      char s[2];
+      s[1] = '\0';
+      s[0] = in[i];
+      strcat(infixExpr, s);
+      // strcat(infixExpr, " ");
+    }
   }
+  free(in);
   return infixExpr;
 }
 
-char* convert_x(char* str, double x) {
+char *convert_x(char *str, double x) {
   int len = strlen(str);
-  char* res = calloc(10 * len, sizeof(char));
+  char *res = calloc(1 * len, sizeof(char));
 
   for (int i = 0; i < len; i++) {
     if (str[i] == 'x') {
-    char buff[20];
-    sprintf(buff, "%.3f", x);
-    // printf("\n%s\n", buff);
+      char buff[20];
+      sprintf(buff, "%.3f", x);
+      // printf("\n%s\n", buff);
       strcat(res, buff);
       // strcat(res, " ");
     } else {
