@@ -1,7 +1,5 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "stack.h"
+#include "convert.h"
+
 
 // typedef struct elem{
 //     char* sign;
@@ -55,8 +53,7 @@ int operationPriority(char c) {
 //     printf("%d", a);
 // }
 
-char* GetStringNumber(char* expr, int* pos)
-{
+char* GetStringNumber(char* expr, int* pos) {
   //printf("\nPos %d\n", *pos);
   //	Хранит число
 //   char strNumber[100] = "";
@@ -93,8 +90,7 @@ char* GetStringNumber(char* expr, int* pos)
   return strNumber;
 }
 
-char* ToPostfix(char* infixExpr)
-{
+char* ToPostfix(char* infixExpr) {
     //	Выходная строка, содержащая постфиксную запись
     int len = strlen(infixExpr);
 
@@ -185,7 +181,7 @@ char* ToPostfix(char* infixExpr)
         while (p != NULL) {
           char s[2];
           s[1] = '\0';
-            s[0] = peek(st);
+            s[0] = pop(st);
             printf("\nZZnak = %c\n", s[0]);
             // s1[0] = s[1];
             strcat(postfixExpr, s);
@@ -197,15 +193,3 @@ char* ToPostfix(char* infixExpr)
     return postfixExpr;
 }
 
-int main () {
-    char * s;
-    s = calloc(100, sizeof(char));
-    s = ToPostfix("(1.5123 /2 + 1)*3+7");
-     printf("\n%s\n", s);
-    // printf("%s", s);
-    int i = 0;
-    printf("%s", GetStringNumber("1.5123", &i));
-    // free(ToPostfix);
-    // free(s);
-    return 0;
-}
